@@ -51,25 +51,28 @@ type Race struct {
 }
 
 func Part1(data []string) int {
-	totalCounter:=1
 	times := strings.Fields(strings.Split(data[0], ":")[1])
 	speed := strings.Fields(strings.Split(data[1], ":")[1])
-	raceData :=	MakeRaceData(times, speed)
+	raceData :=	MakeRaceData(times, speed)[0]
 	
-	for _, race := range raceData {
-		counter:=0
-		ways := CalculateWaysToRace(race)
-		for _, way := range ways {
-			if way>race.Distance {
-				counter++
-				log.Printf("Increasing counter to %d", counter)
-			}
-		}
-		totalCounter*=counter
-		log.Printf("Total counter: %d", totalCounter)
-	}
+	losses := CalculateLosingRaces(raceData)
+	log.Printf("Losses: %d", losses)
+	wins := raceData.Time - losses
+	log.Printf("Wins: %d", wins)
+	// for _, race := range raceData {
+	// 	counter:=0
+	// 	ways := CalculateWaysToRace(race)
+	// 	for _, way := range ways {
+	// 		if way>race.Distance {
+	// 			counter++
+	// 			log.Printf("Increasing counter to %d", counter)
+	// 		}
+	// 	}
+	// 	totalCounter*=counter
+	// 	log.Printf("Total counter: %d", totalCounter)
+	// }
 
-	return totalCounter
+	return wins
 }
 
 func MakeRaceData(times []string, speed []string) []Race {
@@ -82,9 +85,19 @@ func MakeRaceData(times []string, speed []string) []Race {
 	return raceData
 }
 
-// func Part2(data []string) int {
-// 	return 999
-// }
+func Part2(data []string) int {
+	times := strings.Fields(strings.Split(data[0], ":")[1])
+	speed := strings.Fields(strings.Split(data[1], ":")[1])
+	log.Printf("Times: %v, Speed: %v", times, speed)
+	raceData :=	MakeRaceData(times, speed)[0]
+	
+	losses := CalculateLosingRaces(raceData)
+	log.Printf("Losses: %d", losses)
+	wins := raceData.Time - losses
+	log.Printf("Wins: %d", wins)
+
+	return wins
+}
 
 func main() {
 	startTime := time.Now()
@@ -103,11 +116,17 @@ func CalcTotalDistance(timeCharging int, totalTime int) int {
 	return speed*remainingTime
 }
 
-func CalculateWaysToRace (race Race) []int {
-	 distances:= []int{}
+func CalculateLosingRaces (race Race) int {
+	 losingRace:= 0
 
-	for i:=1; i<= race.Time; i++ {
-		distances = append(distances, CalcTotalDistance(i,race.Time))
+	for chargingTime:=1; chargingTime<= race.Time; chargingTime++ {
+		racingTime:=(race.Time-chargingTime)
+		log.Printf(`Charging time: %d, racing time: %d, Total distance: %d`, chargingTime, racingTime, chargingTime*(race.Time-chargingTime))
+		if chargingTime*racingTime < race.Distance {
+			losingRace++
+		} else {
+			break
+		}
 	}
-	return distances
+	return losingRace*2 + 1
 }
