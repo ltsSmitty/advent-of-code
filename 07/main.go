@@ -314,8 +314,8 @@ func CompareHands2 (hand1 Hand, hand2 Hand) (int, error) {
 		if (rankMap2[string(hand1.cards[i])] == 0) {
 			log.Printf("This turned out as 0 %v", int(hand1.cards[i]))
 		}
-		v1 := int(rankMap2[string(hand1.cards[i])])
-		v2:=  int(rankMap2[string(hand2.cards[i])])
+		v1 := rankMap2[string(hand1.cards[i])]
+		v2 := rankMap2[string(hand2.cards[i])]
 		log.Printf("Rank %v vs %v; %v: %v %v", v1, v2, i, hand1.cards, hand2.cards)
 		if v1 > v2 {
 			log.Printf(`%v (%v) (rank %v) > %v (%v) (rank %v)`, hand1.cards[i],  string(hand1.cards[i]), rankMap2[string(hand1.cards[i])], hand2.cards[i], string(hand2.cards[i]), rankMap2[string(hand2.cards[i])])

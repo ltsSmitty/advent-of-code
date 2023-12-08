@@ -20,5 +20,5 @@ func TestCompareHands(t *testing.T) {
 }
 
 func TestPart2(t *testing.T) {
-	assert.Equal(t, 6441, Part2(LoadInput("input_test.txt")))
+	assert.Equal(t, 5905, Part2(LoadInput("input_test.txt")))
 }
