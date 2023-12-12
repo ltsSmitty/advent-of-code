@@ -11,5 +11,9 @@ func TestLoadInput(t *testing.T) {
 }
 
 func TestPart1(t *testing.T) {
-	assert.Equal(t, 1, Part1(LoadInput("input_test.txt")))
+	assert.Equal(t, 375, Part1(LoadInput("input_test.txt")))
+}
+
+func TestPart2(t *testing.T) {
+	assert.Equal(t, 374, Part2(LoadInput("input_test.txt")))
 }

@@ -74,14 +74,14 @@ func Part1(data []string) int {
 	totalDistance:=0
 	counter := 1
 	for star1 :=0; star1 < len(starMap); star1++ {
-		log.Printf("star %v", star1)		
+		// log.Printf("star %v", star1)		
 		for star2 := star1+1; star2 < len(starMap); star2++ {
-			log.Printf("star1: %v, star2: %v", starMap[star1], starMap[star2])
+			// log.Printf("star1: %v, star2: %v", starMap[star1], starMap[star2])
 			distance := math.Abs(float64(starMap[star1].X - starMap[star2].X)) + math.Abs(float64(starMap[star1].Y - starMap[star2].Y))
 			log.Printf("distance: %v", distance)
 			totalDistance += int(distance)
 			counter++
-			log.Printf("Loops %v", counter)
+			// log.Printf("Loops %v", counter)
 		}		
 	}
 	return totalDistance
@@ -92,18 +92,20 @@ func Part2(data []string) int {
 	log.Printf("%v", starMap)
 
 	totalDistance:=0
-	DISTANCE_MULPLIER := 2
+	DISTANCE_MULPLIER := 1000000
 
 	for star1 :=0; star1 < len(starMap); star1++ {
-		log.Printf("star %v", star1)		
+		// log.Printf("Beginning finding distances for star %v", star1)		
 		for star2 := star1+1; star2 < len(starMap); star2++ {
 			currentLocation := Coord{starMap[star2].X, starMap[star2].Y}
 			distanceMoved := 0
+			// log.Printf("Star 1 %v, Star 2 %v", starMap[star1], starMap[star2])
 
-			for currentX := starMap[star2].X; startingX != starMap[star1].X; startingX++ {
+			if starMap[star1].X != starMap[star2].X {
 				// move in the x direction
-				if starMap[star1].X < starMap[star2].X {
+				if starMap[star1].X > starMap[star2].X {
 					// move right
+					// log.Printf("moving right: currentLocation.X: %v, starMap[star1].X: %v", currentLocation.X, starMap[star1].X)
 					for currentLocation.X < starMap[star1].X {
 						currentLocation.X++
 						if ColumnIsEmpty(data, currentLocation.X) {
@@ -115,6 +117,7 @@ func Part2(data []string) int {
 				} else {
 					// move left
 					for currentLocation.X > starMap[star1].X {
+						// log.Printf("moving left")
 						currentLocation.X--
 						if ColumnIsEmpty(data, currentLocation.X) {
 							distanceMoved += 1*DISTANCE_MULPLIER
@@ -122,13 +125,14 @@ func Part2(data []string) int {
 							distanceMoved += 1
 						}
 					}
-				}
+				}			
 			} 
-			for startingY := starMap[star2].Y; startingY != starMap[star1].Y; startingY++ {
+			if starMap[star1].Y != starMap[star2].Y {
 				// move in the y direction
-				if starMap[star1].Y < starMap[star2].Y {
+				if starMap[star1].Y > starMap[star2].Y {
 					// move down
 					for currentLocation.Y < starMap[star1].Y {
+						// log.Printf("moving down")
 						currentLocation.Y++
 						if RowIsEmpty(data[currentLocation.Y]) {
 							distanceMoved += 1*DISTANCE_MULPLIER
@@ -139,6 +143,7 @@ func Part2(data []string) int {
 				} else {
 					// move up
 					for currentLocation.Y > starMap[star1].Y {
+						// log.Printf("moving up")
 						currentLocation.Y--
 						if RowIsEmpty(data[currentLocation.Y]) {
 							distanceMoved += 1*DISTANCE_MULPLIER
@@ -147,12 +152,9 @@ func Part2(data []string) int {
 						}
 					}
 				}
-			} else {
-				// same star
-				distanceMoved = 0
 			}
-			
-
+			totalDistance += distanceMoved					
+			log.Printf("distanceMoved: %v", distanceMoved)
 			// log.Printf("star1: %v, star2: %v", starMap[star1], starMap[star2])
 			// distance := math.Abs(float64(starMap[star1].X - starMap[star2].X)) + math.Abs(float64(starMap[star1].Y - starMap[star2].Y))
 			// log.Printf("distance: %v", distance)
@@ -161,19 +163,17 @@ func Part2(data []string) int {
 			// log.Printf("Loops %v", counter)
 		}		
 	}
+
 	return totalDistance
-
-
-	return 0
 }
 
 func main() {
 	startTime := time.Now()
 	data := LoadInput("input.txt")
-	fmt.Printf("Part 1: %v\n", Part1(data))
-	fmt.Println(time.Since(startTime))
-	// fmt.Printf("Part 2: %v\n", Part2(data))
+	// fmt.Printf("Part 1: %v\n", Part1(data))
 	// fmt.Println(time.Since(startTime))
+	fmt.Printf("Part 2: %v\n", Part2(data))
+	fmt.Println(time.Since(startTime))
 }
 
 func RowIsEmpty (row string) bool {
