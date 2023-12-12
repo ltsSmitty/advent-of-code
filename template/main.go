@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"os"
@@ -14,33 +15,33 @@ func check(e error) {
 }
 
 // one line
-func LoadInput(fileName string) []string {
-	input := []string{}
-
-	file, err := os.ReadFile(fileName)
-	check(err)
-	for _, data := range string(file) {
-		input = append(input, string(data))
-	}
-	return input
-}
-
-// multiple lines
 // func LoadInput(fileName string) []string {
 // 	input := []string{}
-// 	file, err := os.Open(fileName)
+
+// 	file, err := os.ReadFile(fileName)
 // 	check(err)
-// 	defer file.Close()
-
-// 	scanner := bufio.NewScanner(file)
-
-// 	for scanner.Scan() {
-// 		block := scanner.Text()
-// 		input = append(input, block)
-
+// 	for _, data := range string(file) {
+// 		input = append(input, string(data))
 // 	}
 // 	return input
 // }
+
+// multiple lines
+func LoadInput(fileName string) []string {
+	input := []string{}
+	file, err := os.Open(fileName)
+	check(err)
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+
+	for scanner.Scan() {
+		block := scanner.Text()
+		input = append(input, block)
+
+	}
+	return input
+}
 
 func Part1(data []string) int {
 	return 999
