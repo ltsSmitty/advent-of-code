@@ -11,12 +11,12 @@ func TestLoadInput(t *testing.T) {
 }
 
 func TestPart1(t *testing.T) {
-	assert.Equal(t, 136, Part1(LoadInput("input_test.txt")))
+	assert.Equal(t, 137, Part1(LoadInput("input_test.txt")))
 }
 
 func TestRollRock(t *testing.T) {
 	data := LoadInput("input_test.txt")
-	newLocation := RollRock(data, Coord{1,9})
+	newLocation := RollRockNorth(data, Coord{1,9})
 	assert.Equal(t, Coord{1,5}, newLocation)
 	// newLocation := RollRock(data, Coord{9,3})
 	// assert.Equal(t, Coord{9,2}, newLocation)
@@ -24,4 +24,8 @@ func TestRollRock(t *testing.T) {
 
 func TestPart2(t *testing.T) {
 	assert.Equal(t, 64, Part2(LoadInput("input_test.txt")))
+}
+
+func TestPart2Real(t *testing.T) {
+	assert.Equal(t, 1, Part2(LoadInput("input.txt")))
 }
